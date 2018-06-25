@@ -69,7 +69,7 @@ class WeatherValidator(Vlad):
     'RH_Max':[
     RangeValidator(low = 25.0, high = 100.0)
     ],
-    'RH_TMx'[
+    'RH_TMx':[
     RegexValidator(pattern = "((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01]) ([2][0-3]|[0-1][0-9]|[1-9]):[0-5][0-9]:([0-5][0-9]|[6][0])$", empty_ok = False)
     ],
     'RH_Min':[
@@ -79,3 +79,4 @@ class WeatherValidator(Vlad):
     RegexValidator(pattern = "((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01]) ([2][0-3]|[0-1][0-9]|[1-9]):[0-5][0-9]:([0-5][0-9]|[6][0])$", empty_ok = False)
     ]
     }
+clip < ~/.ssh/id_rsa.pub
