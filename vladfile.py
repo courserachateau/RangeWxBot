@@ -1,3 +1,6 @@
+import smtplib
+from . import settings
+
 import csv
 
 from vladiate import Vlad
@@ -79,4 +82,31 @@ class WeatherValidator(Vlad):
     RegexValidator(pattern = "((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01]) ([2][0-3]|[0-1][0-9]|[1-9]):[0-5][0-9]:([0-5][0-9]|[6][0])$", empty_ok = False)
     ]
     }
-#clip < ~/.ssh/id_rsa.pub
+
+
+## Using Gmail to send the error messages
+
+
+
+subject = 'Important Message'  
+body = "Hey, what's up?\n\n- You"
+
+email_text = """\  
+From: %s  
+To: %s  
+Subject: %s
+
+%s
+""" % (sent_from, ", ".join(to), subject, body)
+
+try:  
+    server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+    server.ehlo()
+    server.login(gmail_user, base64.decode(gmail_password))
+    server.sendmail(sent_from, to, email_text)
+    server.close()
+
+    print 'Email sent!'
+except:
+    print "Something went wrong...."
+
