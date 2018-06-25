@@ -1,7 +1,7 @@
 import csv
 
 from vladiate import Vlad
-from vladiate.validators import  FloatValidator, RangeValidator, RegexValidator
+from vladiate.validators import  FloatValidator, RangeValidator, RegexValidator, UniqueValidator
 from vladiate.inputs import LocalFile
 
 
@@ -10,7 +10,7 @@ class TOA5Input(LocalFile):
     def open(self):
         with open(self.filename, 'r') as f:
             lines = f.readlines()
-            return lines[:1] + lines[4:]
+            return lines[1:2] + lines[4:]
 
 
 
@@ -18,23 +18,23 @@ class TOA5Input(LocalFile):
 class WeatherValidator(Vlad):
     source = TOA5Input('SPER_CR6_Daily.dat')
     validators = {
-    'TS': [
-    RegexValidator("^((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$", empty_ok = False)
+    'TIMESTAMP': [
+    RegexValidator(pattern = "((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01]) ([2][0-3]|[0-1][0-9]|[1-9]):[0-5][0-9]:([0-5][0-9]|[6][0])$", empty_ok = False)
     ],
-    'Average Rainfall': [
-    FloatValidator(empty_ok = True)
+    'RECORD': [
+    UniqueValidator(empty_ok = False)
     ],
     'BattV_Min':[
     RangeValidator(low = 0.0, high = 500.0)
     ],
-    'WS-ms_Avg':[
+    'WS_ms_Avg':[
     RangeValidator(low = 0.0, high = 50.0)
     ],
-    'WS-ms_Max':[
+    'WS_ms_Max':[
     RangeValidator(low = 0.0, high = 90.0)
     ],
-    'WS-ms_TMx':[
-    RegexValidator(pattern = "^((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$", empty_ok = False)
+    'WS_ms_TMx':[
+    RegexValidator(pattern = "((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01]) ([2][0-3]|[0-1][0-9]|[1-9]):[0-5][0-9]:([0-5][0-9]|[6][0])$", empty_ok = False)
     ],
     'WS_ms_S_WVT':[
     RangeValidator(low = 0.0, high = 50.0)
@@ -79,4 +79,4 @@ class WeatherValidator(Vlad):
     RegexValidator(pattern = "((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01]) ([2][0-3]|[0-1][0-9]|[1-9]):[0-5][0-9]:([0-5][0-9]|[6][0])$", empty_ok = False)
     ]
     }
-clip < ~/.ssh/id_rsa.pub
+#clip < ~/.ssh/id_rsa.pub
