@@ -3,6 +3,23 @@ import settings
 
 import csv
 
+
+
+
+from collections import defaultdict
+
+columns = defaultdict(list) 
+
+with open('range.csv') as f:
+    reader = csv.reader(f)
+    reader.next()
+    for row in reader:
+        for (i,v) in enumerate(row):
+            columns[i].append(v)
+
+
+
+
 from vladiate import Vlad
 from vladiate.validators import  FloatValidator, RangeValidator, RegexValidator, UniqueValidator
 from vladiate.inputs import LocalFile
@@ -13,7 +30,7 @@ class TOA5Input(LocalFile):
     def open(self):
         with open(self.filename, 'r') as f:
             lines = f.readlines()
-            return lines[1:2] + lines[4:]
+            return lines[1:2] + lines[-1:]
 
 
 
@@ -28,55 +45,55 @@ class WeatherValidator(Vlad):
     UniqueValidator(empty_ok = False)
     ],
     'BattV_Min':[
-    RangeValidator(low = 0.0, high = 500.0)
+    RangeValidator(low = float(columns[1][2]), high = float(columns[2][2]))
     ],
     'WS_ms_Avg':[
-    RangeValidator(low = 0.0, high = 50.0)
+    RangeValidator(low = float(columns[1][3]), high = float(columns[2][3]))
     ],
     'WS_ms_Max':[
-    RangeValidator(low = 0.0, high = 90.0)
+    RangeValidator(low = float(columns[1][4]), high = float(columns[2][4]))
     ],
     'WS_ms_TMx':[
     RegexValidator(pattern = "((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01]) ([2][0-3]|[0-1][0-9]|[1-9]):[0-5][0-9]:([0-5][0-9]|[6][0])$", empty_ok = False)
     ],
     'WS_ms_S_WVT':[
-    RangeValidator(low = 0.0, high = 50.0)
+    RangeValidator(low = float(columns[1][6]), high = float(columns[2][6]))
     ],
     'WindDir_D1_WVT':[
-    RangeValidator(low = 0.0, high = 360.0)
+    RangeValidator(low = float(columns[1][7]), high = float(columns[2][8]))
     ],
     'WindDir_SD1_WVT':[
-    RangeValidator(low = 0.0, high = 360.0)
+    RangeValidator(low = float(columns[1][8]), high = float(columns[2][9]))
     ],
     'SlrMJ_Tot':[
-    RangeValidator(low = 0.0, high =  40.0)
+    RangeValidator(low = float(columns[1][10]), high =  float(columns[2][10]))
     ],
     'Rain_mm_Tot':[
-    RangeValidator(low = 0.0, high = 50.0)
+    RangeValidator(low = float(columns[1][11]), high = float(columns[2][11]))
     ],
     'AirTC_Avg':[
-    RangeValidator(low = -20.0, high = 40.0)
+    RangeValidator(low = float(columns[1][12]), high = float(columns[2][12]))
     ],
     'AirTC_Max':[
-    RangeValidator(low = -10.0, high = 50.0)
+    RangeValidator(low = float(columns[1][13]), high = float(columns[2][13]))
     ],
     'AirTC_TMx':[
     RegexValidator(pattern = "((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01]) ([2][0-3]|[0-1][0-9]|[1-9]):[0-5][0-9]:([0-5][0-9]|[6][0])$", empty_ok = False)
     ],
     'AirTC_Min':[
-    RangeValidator(low = -30.0, high = 30.0)
+    RangeValidator(low = float(columns[1][14]), high = float(columns[2][14]))
     ],
     'AirTC_TMn':[
     RegexValidator(pattern = "((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01]) ([2][0-3]|[0-1][0-9]|[1-9]):[0-5][0-9]:([0-5][0-9]|[6][0])$", empty_ok = False)
     ],
     'RH_Max':[
-    RangeValidator(low = 25.0, high = 100.0)
+    RangeValidator(low = float(columns[1][16]), high = float(columns[2][16]))
     ],
     'RH_TMx':[
     RegexValidator(pattern = "((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01]) ([2][0-3]|[0-1][0-9]|[1-9]):[0-5][0-9]:([0-5][0-9]|[6][0])$", empty_ok = False)
     ],
     'RH_Min':[
-    RangeValidator(low = 1.0, high =  96.0)
+    RangeValidator(low = float(columns[1][18]), high =  float(columns[2][18]))
     ],
     'RH_TMn':[
     RegexValidator(pattern = "((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01]) ([2][0-3]|[0-1][0-9]|[1-9]):[0-5][0-9]:([0-5][0-9]|[6][0])$", empty_ok = False)
